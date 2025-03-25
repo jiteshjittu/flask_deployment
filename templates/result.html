@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recommendation Results</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #232f3e;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .product-info {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+        .recommendations {
+            margin-top: 30px;
+        }
+        .recommendation-item {
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            background-color: white;
+        }
+        .rating {
+            color: #f0c14b;
+            font-weight: bold;
+        }
+        .stars {
+            color: #f0c14b;
+            font-size: 20px;
+        }
+        .error {
+            color: #dc3545;
+            padding: 15px;
+            background-color: #f8d7da;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+        .back-button {
+            display: inline-block;
+            background-color: #f0c14b;
+            color: #111;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 4px;
+            margin-top: 20px;
+        }
+        .back-button:hover {
+            background-color: #f4d078;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Recommendation Results</h1>
+        
+        <div class="product-info">
+            <h2>Product ID: {{ product_id }}</h2>
+        </div>
+
+        {% if error %}
+            <div class="error">
+                {{ error }}
+            </div>
+        {% else %}
+            <div class="recommendations">
+                <h2>Similar Products:</h2>
+                {% for rec in recommendations %}
+                    <div class="recommendation-item">
+                        <p><strong>Product ID:</strong> {{ rec.product_id }}</p>
+                        <p>
+                            <strong>Average Rating:</strong> 
+                            <span class="rating">{{ rec.rating }}</span>
+                            <span class="stars">
+                                {% for _ in range(rec.rating|int) %}★{% endfor %}
+                                {% if rec.rating % 1 >= 0.5 %}½{% endif %}
+                            </span>
+                        </p>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <a href="/" class="back-button">Back to Home</a>
+    </div>
+</body>
+</html> 
